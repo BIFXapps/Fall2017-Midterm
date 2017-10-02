@@ -1,0 +1,8 @@
+Package: transpose
+Version: 1.0
+Date: 2017-09-07
+Title: Transpose
+Author: Randall Johnson <johnson@hood.edu>
+Maintainer: Randall Johnson <johnson@hood.edu>
+Description: Functions written to practice coding and R pacakge creation
+License: GPL (>= 2.0)
