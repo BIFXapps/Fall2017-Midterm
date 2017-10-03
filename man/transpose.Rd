@@ -16,15 +16,15 @@ transpose_loop(x)
 }
 
 \details{
-nothing complicated, just transposes the matrix.
+Transposes the matrix. The output should be identical to the function t(), but the functions in this package have a longer execution time.
 }
 
 \value{
-Returns a transposed matrix
+Returns a transposed matrix.
 }
 
 \author{
-Randy Johnson
+BIFX 552 class
 }
 
 \examples{
