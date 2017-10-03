@@ -1,0 +1,121 @@
+---
+title: "BIFX552 Midterm Exam"
+author: "Randy Johnson"
+date: "10/13/2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(transpose)
+```
+
+
+# Instructions
+
+This is the same package we put together as a class in early September, with a few additions. The package currently resides on the server at */home/johnson/transpose*. Clone the repository to your local machine and modify as instructed below.
+
+For specifics on how this exam will be graded, see the rubric below.
+
+The exam consists of three tasks worth 50 points each. Check your progress often using the `R CMD CHECK transpose` command, and commit chnages when appropriate (note: some things will be picked up by `R CMD CHECK` even though they are noted in *.Rbuildignore* - these warnings are OK to ignore). When you are finished upload your modified git repository to */home/johnson/midterm/transpose_<username>*, where *<username>* is your username.
+
+## transpose_vector() (50 pts)
+
+Your first task is to create a new function called `transpose_vector()`. This should take the same input and return the same output as `transpose_loop()`, but use vectorization instead of a nested `for` loop.
+
+Remember: 
+
+* Your R package should contain both functions and all appropriate documentation and NAMESPACE entries.
+* Make sure your function works before commiting.
+
+## Testing (50 pts)
+
+The second task is to add some testing checks to the package to help ensure that users get reasonable errors when they misuse your functions and to make future changes to your package less buggy.
+
+### User checks
+
+Our code currently assumes that `x` is a matrix, but there is no validation of this assumption. Add a function to the package called `validate_x` that checks if the user submitted a matrix. This should be called at the beginning of both `transpose_loop` and `transpose_vector`.
+
+`validate_x`
+
+* Input: a matrix, `x`
+* Use `class(x)` to verify that `x` is a matrix.
+* If `class(x)` is not a matrix, use `stop()` to throw an error with a meaningful error message.
+* Output: none
+
+Once you have this function 
+
+### Package checks
+
+When running `R CMD CHECK transpose`, the *testing/testthat.R* script checks that everything is in order. There are currently two checks in the *testing/testthat* directory:
+
+* Verify that `transpose_loop(x)` works when `x` is a matrix.
+* Verify that an error is thrown when no input is given to `transpose_loop()`.
+
+Add a new testthat file with two more to checks:
+
+* Verify that `transpose_vector(x)` works when `x` is a matrix.
+* Verify that an error is thrown when `x` is a `data.frame`.
+
+## Documentation (50 pts)
+
+Finish filling in the next section on how to use this package. Make your edits in `README.Rmd` and knit the file to create an updated Word document.
+
+# Using this package
+
+This package was developed by the BIFX 552 class at Hood college to practice R package building and to demonstrate the potential code speedup when using comparing nested loops, vectorized code, and compiled code.
+
+## Installation
+
+To install this package, you currently need to navigate to the directory containing either the source code or the compiled R package and install using `R CMD INSTALL`. You can download the package from */home/johnson/transpose* on the BIFX server at Hood college.
+
+## Comparison of transpose with base R
+
+This section is incomplete. Use the code provided in *README.Rmd* to make something nice, including:
+
+* A table
+* A figure
+* Code with interwoven text describing how much quicker `t` is than `transpose_vector` is than `transpose_loop`
+
+```{r, echo=FALSE}
+# create a list of various sized matricies
+x <- list(matrix(1:100000, ncol = 10),
+          matrix(1:500000, ncol = 10),
+          matrix(1:1000000, ncol = 10),
+          matrix(1:1500000, ncol = 10),
+          matrix(1:2000000, ncol = 10))
+
+# time how long they each take to run using each function
+loopTimes <- sapply(x, function(x) system.time(transpose_loop(x))[3])
+
+#vectorTimes <- sapply(x, function(x) system.time(transpose_vector(x))[3])
+
+tTimes <- sapply(x, function(x) system.time(t(x))[3])
+```
+
+# Grading
+
+This exam will be graded on a curve as this is the first time this exam has been administered. I anticipate that there will be about 2 A's and 3 B's, but if you all score similarly, I'm happy to give everyone A's. You may use any resources you have available to you, but you are expected to complete the exam on your own.
+
+## Rubric
+
+| Tasks | Skill level | Points |
+|:------|:------------|------:|
+| Code | Appropriate comments | 10% |
+| | Appropriate indentation | 10% |
+| | Use of white space | 5% |
+| | Appropriate vectorization | 10% |
+| | File header | 5% |
+| | Runtime errors in code | -15% |
+| | | **40%** |
+| Git repository | Proper structure | 10% |
+| | Clean repository history | 10% |
+| | Commit only complete work | 5% |
+| | Commit only related changes | 5% |
+| | Small commits | 5% |
+| | Appropriate use of *.gitignore* | 5% |
+| | | **40%** |
+| R Package | Installs without errors or warnings | 10% |
+| | Documentation complete | 5% |
+| | Appropriate NAMESPACE entries | 5% |
+| | | **20%** |
