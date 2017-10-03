@@ -1,8 +1,8 @@
 Package: transpose
-Version: 1.0
+Version: 1.1
 Date: 2017-09-07
 Title: Transpose
 Author: Randall Johnson <johnson@hood.edu>
 Maintainer: Randall Johnson <johnson@hood.edu>
-Description: Functions written to practice coding and R pacakge creation
+Description: Functions written to practice coding and R pacakge creation. This package is also used as part of the BIFX552 midterm exam.
 License: GPL (>= 2.0)
