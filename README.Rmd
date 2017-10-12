@@ -17,7 +17,7 @@ This is the same package we put together as a class in early September, with a f
 
 For specifics on how this exam will be graded, see the rubric below.
 
-The exam consists of three tasks worth 50 points each. Check your progress often using the `R CMD CHECK transpose` command, and commit chnages when appropriate (note: some things will be picked up by `R CMD CHECK` even though they are noted in *.Rbuildignore* - these warnings are OK to ignore). When you are finished upload your modified git repository to */home/johnson/midterm/transpose_<username>*, where *<username>* is your username.
+The exam consists of three tasks worth 50 points each. Check your progress often using the `R CMD CHECK transpose` command, and commit chnages when appropriate (note: some things will be picked up by `R CMD CHECK` even though they are excluded in *.Rbuildignore* - these warnings are OK to ignore). You won't need to push any commits to the source repository, since you don't have write permissions to my directory. When you are finished, use `scp` to upload your modified git repository to */home/johnson/midterm/transpose_username*, where *username* is your username. If you would prefer, I can verify that the upload was successful, since you don't have permissions to view what is in the *midterm* directory.
 
 ## transpose_vector() (50 pts)
 
@@ -43,14 +43,14 @@ Our code currently assumes that `x` is a matrix, but there is no validation of t
 * If `class(x)` is not a matrix, use `stop()` to throw an error with a meaningful error message.
 * Output: none
 
-Once you have this function 
+Once you complete this function move to the package checks (don't forget to commit this change to the repository).
 
 ### Package checks
 
 When running `R CMD CHECK transpose`, the *testing/testthat.R* script checks that everything is in order. There are currently two checks in the *testing/testthat* directory:
 
-* Verify that `transpose_loop(x)` works when `x` is a matrix.
-* Verify that an error is thrown when no input is given to `transpose_loop()`.
+* Verify that `transpose_loop(x)` works when `x` is a matrix (done).
+* Verify that an error is thrown when no input is given to `transpose_loop()` (done).
 
 Add a new testthat file with two more to checks:
 
