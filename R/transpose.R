@@ -3,9 +3,12 @@
 
 transpose_loop <- function(x)
 {
+  # check assumption that we are working with a matrix
+  validate_x(x)
+
   # trasnposed matrix to reutrn
   tx <- matrix(nrow = dim(x)[2], ncol = dim(x)[1])
-  
+
   for(i in 1:dim(x)[1]) # loop over rows
   {
     for(j in 1:dim(x)[2]) # loop over columns
@@ -21,6 +24,9 @@ transpose_loop <- function(x)
 # transpose x using vectorized notation (i.e. not a nested for loop)
 transpose_vector <- function(x)
 {
+    # check assumption that we are working with a matrix
+    validate_x(x)
+
     # using a *single* for loop
     # tx <- matrix(ncol = dim(x)[1], nrow = dim(x)[2])
     #
