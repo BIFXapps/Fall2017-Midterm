@@ -8,6 +8,9 @@ output: word_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(transpose)
+library(tidyverse)
+library(cowplot)
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 ```
 
 
@@ -71,26 +74,67 @@ To install this package, you currently need to navigate to the directory contain
 
 ## Comparison of transpose with base R
 
-This section is incomplete. Use the code provided in *README.Rmd* to make something nice, including:
-
-* A table
-* A figure
-* Code with interwoven text describing how much quicker `t` is than `transpose_vector` is than `transpose_loop`
-
 ```{r, echo=FALSE}
 # create a list of various sized matricies
-x <- list(matrix(1:100000, ncol = 10),
-          matrix(1:500000, ncol = 10),
-          matrix(1:1000000, ncol = 10),
-          matrix(1:1500000, ncol = 10),
-          matrix(1:2000000, ncol = 10))
+sizes <- c(100000, 500000, 1000000, 1500000, 2000000)
+
+x <- list(matrix(1:sizes[1], ncol = 10),
+          matrix(1:sizes[2], ncol = 10),
+          matrix(1:sizes[3], ncol = 10),
+          matrix(1:sizes[4], ncol = 10),
+          matrix(1:sizes[5], ncol = 10))
+
+# this will make for a nicer figure below
+sizeInMillions <- sizes / 1e6
 
 # time how long they each take to run using each function
 loopTimes <- sapply(x, function(x) system.time(transpose_loop(x))[3])
 
-#vectorTimes <- sapply(x, function(x) system.time(transpose_vector(x))[3])
+vectorTimes <- sapply(x, function(x) system.time(transpose_vector(x))[3])
 
 tTimes <- sapply(x, function(x) system.time(t(x))[3])
+
+# data_frame for displaying times below
+times <- data_frame(sizeInMillions = rep(sizeInMillions, 3),
+                    seconds = c(loopTimes, vectorTimes, tTimes),
+                    label = rep(c('for', 'sapply', 't'), each = length(sizes)))
+```
+
+R is optimized for vector operations. For loops, especially nested for loops, are known for being inefficient. To demonstrate this inefficiency, we have created this package with two functions replecating the functionality of the transpose function, `t()`:
+
+* `transpose_loop()` transposes a matrix using a nested for loop.
+* `transpose_vector()` uses vector operations to transpose the matrix.
+
+```{r, echo = FALSE}
+# comparig fold change between transpose_loop and transpose_vector
+for_sapply <- filter(times, label == 'for')$seconds / 
+              filter(times, label == 'sapply')$seconds
+for_sapply <- mean(for_sapply) %>% round(digits = 1)
+
+# comparing fold change between transpose_loop and t
+for_t <- filter(times, label == 'for')$seconds / 
+              filter(times, label == 't')$seconds
+for_t <- mean(for_t[-1]) %>% round(digits = 1)
+
+# comparing fold change between transpose_vector and t
+sapply_t <- filter(times, label == 'sapply')$seconds / 
+              filter(times, label == 't')$seconds
+sapply_t <- mean(sapply_t[-1]) %>% round(digits = 1)
+```
+
+The average speedup across the 5 sizes tested in this example is:
+
+|   Method | Speedup over `for` | Speedup over `sapply` |
+|---------:|:------------------:|:---------------------:|
+| `sapply` | ```r for_sapply``` | |
+|      `t` | ```r for_t``` | ```r sapply_t``` |
+
+This figure shows the observed compute times for each method as the matrix size increases by 500,000 elements.
+
+```{r, echo = FALSE}
+ggplot(times, aes(sizeInMillions, seconds, color = label)) +
+    geom_point() +
+    scale_color_manual(values = cbbPalette)
 ```
 
 # Grading
@@ -103,19 +147,21 @@ This exam will be graded on a curve as this is the first time this exam has been
 |:------|:------------|------:|
 | Code | Appropriate comments | 10% |
 | | Appropriate indentation | 10% |
-| | Use of white space | 5% |
+| | Use of white space | 6% |
 | | Appropriate vectorization | 10% |
-| | File header | 5% |
-| | Runtime errors in code | -15% |
+| | File header | 4% |
+| | Runtime errors in code | -16% |
+| | Task incomplete | -20% |
 | | | **40%** |
 | Git repository | Proper structure | 10% |
-| | Clean repository history | 10% |
-| | Commit only complete work | 5% |
-| | Commit only related changes | 5% |
-| | Small commits | 5% |
-| | Appropriate use of *.gitignore* | 5% |
+| | Commit message formatting | 6% |
+| | Commit only complete work | 6% |
+| | Clean repository history | 4% |
+| | Commit only related changes | 4% |
+| | Small commits | 4% |
+| | Appropriate use of *.gitignore* | 6% |
 | | | **40%** |
 | R Package | Installs without errors or warnings | 10% |
-| | Documentation complete | 5% |
-| | Appropriate NAMESPACE entries | 5% |
+| | Documentation complete | 6% |
+| | Appropriate NAMESPACE entries | 4% |
 | | | **20%** |
