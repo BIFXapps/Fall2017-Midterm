@@ -2,3 +2,4 @@ README.*
 ^.git/
 .DS_Store
 .Rapp.history
+README_files/
