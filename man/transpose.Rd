@@ -1,5 +1,6 @@
 \name{transpose functions}
 \alias{transpose_loop}
+\alias{transpose_vector}
 
 \title{
 Transpose matrices
@@ -30,6 +31,7 @@ BIFX 552 class
 \examples{
 x <- matrix(1:6, nrow = 2, byrow = TRUE)
 transpose_loop(x)
+transpose_vector(x)
 }
 
 \keyword{array}

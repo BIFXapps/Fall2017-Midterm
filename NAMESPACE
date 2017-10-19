@@ -1,1 +1,1 @@
-export(transpose_loop)
+export(transpose_loop, transpose_vector)

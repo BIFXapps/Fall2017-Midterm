@@ -1,8 +1,9 @@
 Package: transpose
-Version: 1.1
-Date: 2017-10-03
+Version: 1.2
+Date: 2017-10-19
 Title: Transpose
 Author: BIFX 552 class <johnson@hood.edu>
 Maintainer: BIFX 552 class <johnson@hood.edu>
+Suggests: testthat
 Description: Functions written to practice coding and R pacakge creation. This package is also used as part of the BIFX552 midterm exam.
 License: GPL (>= 2.0)
