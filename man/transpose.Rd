@@ -10,6 +10,7 @@ Transpose a matrix
 }
 \usage{
 transpose_loop(x)
+transpose_vector(x)
 }
 
 \arguments{
